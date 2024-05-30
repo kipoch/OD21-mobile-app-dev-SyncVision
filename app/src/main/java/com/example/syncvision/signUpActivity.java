@@ -1,6 +1,7 @@
 package com.example.syncvision;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +21,40 @@ public class signUpActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("SignUpActivity", "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("signUPActivity", "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("signUpActivity", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("SignUpActivity", "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("signUpActivity", "onDestroy");
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("signUpActivity", "onRestart");
     }
 }
