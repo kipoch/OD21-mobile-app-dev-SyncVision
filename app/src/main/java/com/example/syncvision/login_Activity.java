@@ -1,32 +1,59 @@
 package com.example.syncvision;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Switch;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.app.AppCompatDelegate;
+
 
 public class login_Activity extends AppCompatActivity {
-    TextView tv;
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private Switch switcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+
+       switcher= findViewById(R.id.switcher);
+       switcher.setChecked(isDarkMode);
+
+        switcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isDarkMode", isChecked);
+            editor.apply();
+
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
         });
 
-        tv = findViewById(R.id.textView6);
+        TextView signUpTextView = findViewById(R.id.tosignUp);
+        signUpTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(login_Activity.this, signUpActivity.class);
+            startActivity(intent);
 
-        tv.setOnClickListener(v -> startActivity(new Intent(login_Activity.this,signUpActivity.class)));
+});
     }
     @Override
     protected void onStart() {
